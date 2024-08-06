@@ -29,7 +29,7 @@ mongoose.connect(MONGO_URI, {
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error(err));
 
-// Routes
+ // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionsRoutes);
 app.use('/api/expenses', expenseRoutes);
