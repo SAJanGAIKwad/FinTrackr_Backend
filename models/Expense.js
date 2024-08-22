@@ -16,6 +16,10 @@ const expenseSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  currency: { 
+    type: String,
+     default: 'USD'
+  },
   userId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User',
