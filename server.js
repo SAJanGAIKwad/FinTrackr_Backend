@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/auth.js';
 import transactionsRoutes from './routes/transactions.js';
 import expenseRoutes from './routes/expenses.js'; 
+import goalRoutes from './routes/goals.js';
 dotenv.config();
 
 const app = express();
@@ -33,6 +34,7 @@ mongoose.connect(MONGO_URI, {
 app.use('/api/auth', authRoutes);
 app.use('/api/transactions', transactionsRoutes);
 app.use('/api/expenses', expenseRoutes);
+app.use('/api/goals', goalRoutes);
 
 app.get('/', (req, res) => {
   res.send('Personal Finance Tracker API');
