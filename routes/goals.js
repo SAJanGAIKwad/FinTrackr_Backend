@@ -1,4 +1,3 @@
-// routes/goals.js
 import express from 'express';
 import { check, validationResult } from 'express-validator';
 import auth from '../middleware/auth.js';
@@ -15,6 +14,7 @@ router.post(
             check('title', 'Title is required').not().isEmpty(),
             check('targetAmount', 'Target amount must be a number').isNumeric(),
             check('deadline', 'Deadline is required').not().isEmpty(),
+            check('currentAmount', 'Current amount must be a number').optional().isNumeric(),
         ],
     ],
     async (req, res) => {
@@ -23,14 +23,14 @@ router.post(
             return res.status(400).json({ errors: errors.array() });
         }
 
-        const { title, targetAmount, deadline } = req.body;
+        const { title, targetAmount, deadline, currentAmount = 0 } = req.body;
         try {
             const newGoal = new Goal({
                 userId: req.user.id,
                 title,
                 targetAmount,
                 deadline,
-                currentAmount: 0, // Initialize currentAmount
+                currentAmount,
             });
             const goal = await newGoal.save();
             res.json(goal);
@@ -87,7 +87,7 @@ router.put(
             res.json(goal);
         } catch (err) {
             console.error(err.message);
-            res.status(500).send('Server Error');
+            res.status (500).send('Server Error');
         }
     }
 );
