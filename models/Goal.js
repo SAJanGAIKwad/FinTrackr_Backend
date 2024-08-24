@@ -26,6 +26,10 @@ const GoalSchema = new mongoose.Schema({
         type: Date,
         default: Date.now,
     },
+    isAchieved: {
+        type: Boolean,
+        default: false
+    },
 });
 
 export default mongoose.model('Goal', GoalSchema);

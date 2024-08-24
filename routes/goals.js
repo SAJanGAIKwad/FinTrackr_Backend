@@ -78,19 +78,40 @@ router.put(
                 return res.status(401).json({ msg: 'Not authorized' });
             }
 
+            // Update current amount and check if goal is achieved
+            goal.currentAmount += parseFloat(currentAmount);
+
+            // If currentAmount meets or exceeds targetAmount, mark as achieved
+            if (goal.currentAmount >= goal.targetAmount) {
+                goal.currentAmount = goal.targetAmount; // Cap at target amount
+                goal.isAchieved = true;  // Mark as achieved
+            }
+
             goal = await Goal.findByIdAndUpdate(
                 req.params.id,
-                { $set: { currentAmount } },
+                { $set: { currentAmount: goal.currentAmount, isAchieved: goal.isAchieved } },
                 { new: true }
             );
 
             res.json(goal);
         } catch (err) {
             console.error(err.message);
-            res.status (500).send('Server Error');
+            res.status(500).send('Server Error');
         }
     }
 );
+
+
+// Get achieved goals
+router.get('/achieved', auth, async (req, res) => {
+    try {
+        const goals = await Goal.find({ userId: req.user.id, isAchieved: true });
+        res.json(goals);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('Server Error');
+    }
+});
 
 // Delete a goal
 router.delete('/:id', auth, async (req, res) => {
