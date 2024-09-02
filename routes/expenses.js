@@ -4,7 +4,6 @@ import auth from '../middleware/auth.js';
 import CurrencyConverter from 'currency-converter-lt';
 import { Parser } from 'json2csv';
 import PDFDocument from 'pdfkit';
-import fs from 'fs';
 
 const router = express.Router();
 
